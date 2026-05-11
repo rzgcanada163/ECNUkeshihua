@@ -1,0 +1,53 @@
+2026-04-14 21:41:26,592 | INFO | ======================================================================
+2026-04-14 21:41:26,592 | INFO | Start music hit analysis pipeline
+2026-04-14 21:41:26,592 | INFO | ======================================================================
+2026-04-14 21:41:26,797 | INFO | 读取成功: D:\File\R\sjclyksh\data\spotify_tracks.csv | encoding=utf-8-sig | shape=(114000, 21)
+2026-04-14 21:41:26,821 | INFO | 读取成功: D:\File\R\sjclyksh\data\billboard.csv | encoding=utf-8-sig | shape=(1177, 105)
+2026-04-14 21:41:26,822 | INFO | 读取成功: D:\File\R\sjclyksh\data\topics.csv | encoding=utf-8-sig | shape=(97, 1)
+2026-04-14 21:41:27,822 | INFO | 已保存表格: D:\File\R\sjclyksh\output\cleaned_data\spotify_tracks_cleaned.csv
+2026-04-14 21:41:27,859 | INFO | 已保存表格: D:\File\R\sjclyksh\output\cleaned_data\billboard_cleaned.csv
+2026-04-14 21:41:27,860 | INFO | 已保存表格: D:\File\R\sjclyksh\output\cleaned_data\topics_cleaned.csv
+2026-04-14 21:41:27,862 | INFO | 已保存表格: D:\File\R\sjclyksh\output\cleaned_data\billboard_topics_exploded.csv
+2026-04-14 21:41:27,870 | INFO | 已保存表格: D:\File\R\sjclyksh\output\tables\spotify_genre_summary.csv
+2026-04-14 21:41:27,876 | INFO | 已保存表格: D:\File\R\sjclyksh\output\tables\billboard_decade_summary.csv
+2026-04-14 21:41:27,877 | INFO | 已保存表格: D:\File\R\sjclyksh\output\tables\billboard_topic_summary.csv
+2026-04-14 21:41:27,883 | INFO | 已保存表格: D:\File\R\sjclyksh\output\tables\spotify_vs_billboard_comparison.csv
+2026-04-14 21:41:28,918 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\01_spotify_popularity_distribution.png
+2026-04-14 21:41:29,246 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\02_spotify_top_genre_counts.png
+2026-04-14 21:41:29,571 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\03_spotify_avg_popularity_by_genre.png
+2026-04-14 21:41:29,596 | INFO | hit_group 样本分布: {'Hit': 9806, 'Middle': 70487, 'Low-Impact': 9448}
+2026-04-14 21:41:30,546 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\04_spotify_boxplot_hit_group.png
+2026-04-14 21:41:31,492 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\04_spotify_boxplot_hit_group_by_feature.png
+2026-04-14 21:41:33,117 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\05_spotify_violin_popularity_tier.png
+2026-04-14 21:41:33,606 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\06_spotify_corr_heatmap.png
+2026-04-14 21:41:34,127 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\07_spotify_duration_vs_popularity.png
+2026-04-14 21:41:39,733 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\08_spotify_density_danceability_energy.png
+2026-04-14 21:41:40,134 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\09_spotify_genre_radar.png
+2026-04-14 21:41:40,469 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\10_spotify_genre_tier_stacked.png
+2026-04-14 21:41:41,023 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\spotify\11_spotify_feature_map_pca.png
+2026-04-14 21:41:41,547 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\01_billboard_decade_trends.png
+2026-04-14 21:41:41,860 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\02_billboard_weeks_distribution.png
+2026-04-14 21:41:42,217 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\03_billboard_top_artists.png
+2026-04-14 21:41:42,568 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\04_billboard_lyrical_topics.png
+2026-04-14 21:41:43,010 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\05_billboard_bubble_energy_danceability.png
+2026-04-14 21:41:43,371 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\06_billboard_corr_heatmap.png
+2026-04-14 21:41:43,796 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\07_billboard_topic_decade_heatmap.png
+2026-04-14 21:41:44,310 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\08_billboard_topic_cooccurrence.png
+2026-04-14 21:41:44,789 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\09_billboard_topic_network.png
+2026-04-14 21:41:45,408 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\10_billboard_feature_ridgeline.png
+2026-04-14 21:41:45,693 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\11_billboard_topic_color_legend.png
+2026-04-14 21:41:46,148 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\12_billboard_decade_style_trajectory.png
+2026-04-14 21:41:52,058 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\billboard\13_billboard_topic_community_graph.png
+2026-04-14 21:41:52,366 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\comparison\01_spotify_vs_billboard_lollipop.png
+2026-04-14 21:41:52,759 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\comparison\02_decade_feature_gap_heatmap.png
+2026-04-14 21:41:52,865 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-04-14 21:41:52,868 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-04-14 21:41:53,037 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\comparison\03_decade_similarity_to_spotify_hits.png
+2026-04-14 21:41:53,492 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\comparison\04_spotify_hit_vs_low_bootstrap_ci.png
+2026-04-14 21:41:53,843 | INFO | 已保存图像: D:\File\R\sjclyksh\output\figures\comparison\05_billboard_partial_corr_network_by_decade.png
+2026-04-14 21:41:54,178 | INFO | 已保存交互图: D:\File\R\sjclyksh\output\figures\interactive_html\01_spotify_3d_feature_cloud.html
+2026-04-14 21:41:54,213 | INFO | 已保存交互图: D:\File\R\sjclyksh\output\figures\interactive_html\02_billboard_decade_topic_sankey.html
+2026-04-14 21:41:54,247 | INFO | 已保存交互图: D:\File\R\sjclyksh\output\figures\interactive_html\03_billboard_3d_decade_trajectory.html
+2026-04-14 21:41:54,407 | INFO | 已保存交互图: D:\File\R\sjclyksh\output\figures\interactive_html\04_billboard_3d_topic_cluster_bubble.html
+2026-04-14 21:41:54,411 | INFO | 已保存报告: D:\File\R\sjclyksh\output\reports\analysis_summary_report.md
+2026-04-14 21:41:54,412 | INFO | 全部完成。输出目录：D:\File\R\sjclyksh\output

@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Music Universe | 音乐宇宙</title>
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="app">
+  <div class="left">
+    <section class="hero">
+      <div class="badge">Interactive Data Visualization</div>
+      <h1>Music Universe <span>音乐宇宙</span></h1>
+      <p>把 Spotify 音频特征、流派分布与 Billboard 冠军单曲放进同一个可探索的 3D 星图。</p>
+      <div class="heroMeta">
+        <span>Spotify Audio Features</span>
+        <span>Billboard #1 Songs</span>
+        <span>3D Feature Space</span>
+      </div>
+    </section>
+
+    <div class="canvasWrap">
+      <div class="sceneHud">
+        <div class="hudTop">
+          <span class="liveDot"></span>
+          <span id="modeName">Universe</span>
+        </div>
+        <p id="modeText">Danceability, energy, and valence form the main coordinate system.</p>
+        <div class="hudStats">
+          <strong id="visibleCount">-</strong>
+          <span>visible tracks</span>
+        </div>
+      </div>
+      <div id="sceneContainer"></div>
+      <div class="hoverTooltip" id="hoverTooltip"></div>
+      <div id="errorBanner"></div>
+    </div>
+
+    <div class="footerTip">Tips：左键旋转 · 滚轮缩放 · 右键平移 · 点击任意发光点查看歌曲详情并播放声纹预览</div>
+  </div>
+
+  <div class="right">
+    <section class="stats">
+      <div class="statCard"><div class="statLabel">Tracks</div><div class="statValue" id="statSongs">-</div></div>
+      <div class="statCard"><div class="statLabel">Genres</div><div class="statValue" id="statGenres">-</div></div>
+      <div class="statCard"><div class="statLabel">Avg Popularity</div><div class="statValue" id="statAvgPop">-</div></div>
+      <div class="statCard"><div class="statLabel">Top Genre</div><div class="statValue" id="statTopGenre">-</div></div>
+    </section>
+
+    <section class="panel">
+      <div class="panelHead">
+        <h3>Universe Controls</h3>
+        <span id="datasetBadge">Spotify</span>
+      </div>
+      <div class="modeBar">
+        <button class="mode active" data-mode="universe">Universe</button>
+        <button class="mode" data-mode="galaxyCluster">Galaxy Cluster</button>
+        <button class="mode" data-mode="coverWall">Cover Wall</button>
+        <button class="mode" data-mode="genreRings">Genre Rings</button>
+        <button class="mode" data-mode="billboardDecades">Billboard Decades</button>
+      </div>
+      <div class="grid2">
+        <div class="controlBlock">
+          <label class="controlLabel">Genre Filter</label>
+          <select id="genreFilter"></select>
+        </div>
+        <div class="controlBlock">
+          <label class="controlLabel">Search Song / Artist</label>
+          <input id="keywordInput" type="text" placeholder="Taylor / Love / dance" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="controlBlock">
+          <label class="controlLabel">Minimum Popularity / Weeks</label>
+          <input id="popSlider" type="range" min="0" max="100" step="1" value="0" />
+        </div>
+        <div class="controlBlock">
+          <label class="controlLabel">Threshold</label>
+          <input id="popNumber" type="number" min="0" max="100" step="1" value="0" />
+        </div>
+      </div>
+      <div class="btnRow" style="margin-bottom:10px">
+        <button class="primary" id="applyBtn">Apply Filter</button>
+        <button class="secondary" id="resetBtn">Reset</button>
+        <button class="ghost" id="rotationBtn">Pause Rotation</button>
+        <button class="ghost" id="genreCycleBtn">Genre Cycle</button>
+        <button class="ghost" id="surpriseBtn">Surprise Me</button>
+        <button class="ghost" id="tourBtn">Presentation Tour</button>
+      </div>
+      <div class="insightGrid">
+        <div>
+          <span>Dataset</span>
+          <strong id="activeDataset">Spotify</strong>
+        </div>
+        <div>
+          <span>Filter</span>
+          <strong id="activeFilter">All Genres</strong>
+        </div>
+        <div>
+          <span>Mode</span>
+          <strong id="activeModeStat">Universe</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panelHead">
+        <h3>Current Insight</h3>
+        <span id="insightBadge">Live</span>
+      </div>
+      <p class="insightSummary" id="insightSummary">选择模式或筛选条件后，这里会自动总结当前音乐宇宙的画像。</p>
+      <div class="moodGrid" id="moodGrid"></div>
+      <div class="topTracks" id="topTracks"></div>
+    </section>
+
+    <section class="panel">
+      <h3>Selected Song</h3>
+      <div class="songCard">
+        <div class="artBox" id="artBox">album<br/>art</div>
+        <div>
+          <div class="songTitle" id="songTitle">Click a glowing star</div>
+          <div class="songSub" id="songSub"></div>
+          <div class="metaPills">
+            <div class="pill" id="pillGenre">Genre: -</div>
+            <div class="pill" id="pillPopularity">Popularity: -</div>
+            <div class="pill" id="pillExtra">XYZ: -</div>
+          </div>
+          <div class="featureBars" id="featureBars"></div>
+          <div class="metaList" id="metaList"></div>
+          <div class="songActions">
+            <button class="primary compact" id="playPreviewBtn">Play Signature</button>
+            <button class="ghost compact" id="stopPreviewBtn">Stop</button>
+            <a class="linkBtn" id="spotifyLink" target="_blank" rel="noreferrer">Spotify</a>
+            <a class="linkBtn" id="youtubeLink" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+          <div class="audioStatus" id="audioStatus">声纹预览会根据 tempo、energy、valence 和 danceability 生成，不播放受版权保护的原曲。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Genre Legend</h3>
+      <div class="legend" id="legendBox"></div>
+    </section>
+  </div>
+</div>
+
+<script>
+  (async function bootstrapScripts() {
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = src;
+        s.onload = () => resolve(src);
+        s.onerror = () => reject(new Error(`load failed: ${src}`));
+        document.head.appendChild(s);
+      });
+    }
+
+    async function loadWithFallback(localSrc, cdnSrc) {
+      try {
+        await loadScript(localSrc);
+      } catch (_) {
+        await loadScript(cdnSrc);
+      }
+    }
+
+    // 优先相对路径（便于同目录部署）；若缺失则回退 CDN。
+    await loadWithFallback("./vendor/three.min.js", "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js");
+    await loadWithFallback("./vendor/OrbitControls.js", "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js");
+    await loadScript("./music_universe_data_embedded.js");
+    await loadScript("./app.js");
+  })().catch((err) => {
+    const banner = document.getElementById("errorBanner");
+    if (banner) {
+      banner.style.display = "block";
+      banner.textContent = `脚本加载失败：${err.message}`;
+    }
+  });
+</script>
+</body>
+</html>
