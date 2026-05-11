@@ -802,10 +802,10 @@ async function loadSiteData() {
     for (let i = 0; i < steps; i++){
       const t = start + i * beat * 0.5;
       const note = chord[i % chord.length];
-      const velocity = 0.035 + energy * 0.08;
+      const velocity = (0.035 + energy * 0.08) * 1.45;
       scheduleTone(t, base * note, beat * 0.34, velocity, i % 3 === 0 ? 'triangle' : 'sine');
-      if (i % 2 === 0) scheduleTone(t, 55 + energy * 45, beat * 0.12, 0.05 + energy * 0.08, 'square');
-      if (dance > 0.55 && i % 2 === 1) scheduleTone(t + beat * 0.22, 900 + valence * 800, beat * 0.08, 0.012 + dance * 0.025, 'sawtooth');
+      if (i % 2 === 0) scheduleTone(t, 55 + energy * 45, beat * 0.12, (0.05 + energy * 0.08) * 1.35, 'square');
+      if (dance > 0.55 && i % 2 === 1) scheduleTone(t + beat * 0.22, 900 + valence * 800, beat * 0.08, (0.012 + dance * 0.025) * 1.4, 'sawtooth');
     }
 
     const duration = steps * beat * 0.5 + 0.35;
