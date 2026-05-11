@@ -156,13 +156,15 @@
 
 <script>
   (async function bootstrapScripts() {
-    if (location.protocol === "file:") {
-      const banner = document.getElementById("errorBanner");
-      if (banner) {
-        banner.style.display = "block";
-        banner.textContent =
-          "提示：当前为 file:// 打开，部分浏览器无法可靠加载本地脚本。请在终端执行：cd web/music_universe && python -m http.server 8080，然后访问 http://127.0.0.1:8080/ 。";
-      }
+    const protocolTip = document.getElementById("protocolTip");
+    const dismissProtocolTip = document.getElementById("dismissProtocolTip");
+    if (protocolTip && dismissProtocolTip) {
+      dismissProtocolTip.addEventListener("click", () => {
+        protocolTip.hidden = true;
+      });
+    }
+    if (location.protocol === "file:" && protocolTip) {
+      protocolTip.hidden = false;
     }
 
     function loadScript(src) {
