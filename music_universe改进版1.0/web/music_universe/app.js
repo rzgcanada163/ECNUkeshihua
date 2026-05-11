@@ -25,6 +25,11 @@ async function loadSiteData() {
   try {
     const SITE_DATA = await loadSiteData();
 
+    if (errorBanner) {
+      errorBanner.style.display = 'none';
+      errorBanner.textContent = '';
+    }
+
   const spotifyItems = SITE_DATA.spotifyItems || [];
   const billboardItems = SITE_DATA.billboardItems || [];
   const genres = SITE_DATA.genres || [];
