@@ -34,6 +34,14 @@
       </div>
       <div id="sceneContainer"></div>
       <div class="hoverTooltip" id="hoverTooltip"></div>
+      <div id="protocolTip" class="protocolTip" hidden>
+        <div class="protocolTipText">
+          当前为 <strong>file://</strong> 打开。3D 若已显示说明脚本已加载；但 Safari 等浏览器下封面、外联试听或部分脚本仍可能异常。
+          推荐在本目录执行 <code>python serve_web.py</code> 或 <code>python -m http.server 8080</code> 后访问
+          <a href="http://127.0.0.1:8080/" target="_blank" rel="noreferrer">http://127.0.0.1:8080/</a>。
+        </div>
+        <button type="button" class="protocolTipClose" id="dismissProtocolTip" aria-label="关闭提示">×</button>
+      </div>
       <div id="errorBanner"></div>
     </div>
 
