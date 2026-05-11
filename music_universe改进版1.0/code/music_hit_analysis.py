@@ -1680,6 +1680,7 @@ def plot_interactive_3d_cloud(df: pd.DataFrame, out_path: Path) -> None:
     fig.update_traces(marker=dict(line=dict(width=0.2, color="rgba(255,255,255,0.55)")))
     fig.update_layout(
         template="plotly_white",
+        font=PLOTLY_CHART_FONT,
         legend_title_text="流派（前12 + 其他）",
         margin=dict(l=0, r=0, t=60, b=0),
         scene=dict(
