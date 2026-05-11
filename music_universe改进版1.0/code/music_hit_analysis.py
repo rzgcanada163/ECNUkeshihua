@@ -25,17 +25,28 @@ import plotly.graph_objects as go
 # =========================================================
 # 1. 用户可直接修改的路径配置
 # =========================================================
-SPOTIFY_PATH = os.environ.get("MUSIC_SPOTIFY_PATH", r"D:\File\R\sjclyksh\data\spotify_tracks.csv")
-BILLBOARD_PATH = os.environ.get("MUSIC_BILLBOARD_PATH", r"D:\File\R\sjclyksh\data\billboard.csv")
-TOPICS_PATH = os.environ.get("MUSIC_TOPICS_PATH", r"D:\File\R\sjclyksh\data\topics.csv")
-# 默认输出目录采用“脚本目录的上一级/output”，即 code 与 output 平级
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_ROOT = os.environ.get("MUSIC_OUTPUT_ROOT", str(SCRIPT_DIR.parent / "output"))
+PROJECT_ROOT = SCRIPT_DIR.parent
+_DEFAULT_DATA_DIR = PROJECT_ROOT / "data"
+# 默认使用仓库内 data/，换机器无需改代码；仍可用环境变量覆盖。
+SPOTIFY_PATH = os.environ.get("MUSIC_SPOTIFY_PATH", str(_DEFAULT_DATA_DIR / "spotify_tracks.csv"))
+BILLBOARD_PATH = os.environ.get("MUSIC_BILLBOARD_PATH", str(_DEFAULT_DATA_DIR / "billboard.csv"))
+TOPICS_PATH = os.environ.get("MUSIC_TOPICS_PATH", str(_DEFAULT_DATA_DIR / "topics.csv"))
+OUTPUT_ROOT = os.environ.get("MUSIC_OUTPUT_ROOT", str(PROJECT_ROOT / "output"))
 
-# 可选：专辑图片映射表。
-# 如果你后续想做“带专辑封面的云图”，可手动准备这个文件。
-# 支持列：track_id, image_path, image_url
-ALBUM_ART_MAP_PATH = r"D:\File\R\sjclyksh\data\album_art_map.csv"
+# 可选：专辑图片映射表（支持列：track_id, image_path, image_url）；不存在则跳过相关图。
+ALBUM_ART_MAP_PATH = os.environ.get(
+    "MUSIC_ALBUM_ART_MAP_PATH", str(_DEFAULT_DATA_DIR / "album_art_map.csv")
+)
+
+# Plotly 图表字体：含西文与中文常见回退，减轻交互 HTML 中文乱码（见《问题排查》4.2）。
+PLOTLY_CHART_FONT = dict(
+    family=(
+        "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',"
+        "'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif"
+    ),
+    size=12,
+)
 
 
 # =========================================================
