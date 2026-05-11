@@ -675,7 +675,7 @@ async function loadSiteData() {
     const imgSrc = item.image_path || item.image_url || item.artwork_url || '';
     const requestId = ++artworkRequestId;
     if (imgSrc) {
-      artBox.innerHTML = `<img alt="album art" src="${imgSrc}" />`;
+      artBox.innerHTML = `<img alt="album art" referrerpolicy="no-referrer" loading="lazy" src="${imgSrc}" />`;
       return;
     }
 
