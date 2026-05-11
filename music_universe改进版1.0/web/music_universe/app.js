@@ -1036,16 +1036,20 @@ async function loadSiteData() {
   function surpriseMe(){
     const visible = getVisibleMeshes();
     if (!visible.length) return;
-    const weighted = visible
+    const withPreview = visible.filter(m => hasHttpPreview(m.userData.item));
+    const pool = withPreview.length && Math.random() < 0.78 ? withPreview : visible;
+    const weighted = pool
       .map(mesh => {
         const item = mesh.userData.item;
         const metric = item.dataset === 'billboard' ? toFiniteNumber(item.weeks) : toFiniteNumber(item.popularity);
-        return { mesh, score: metric + hashString(item.id) % 25 };
+        let score = metric + (hashString(item.id) % 25);
+        if (hasHttpPreview(item)) score += 18;
+        return { mesh, score };
       })
       .sort((a, b) => b.score - a.score)
-      .slice(0, Math.min(24, visible.length));
+      .slice(0, Math.min(28, pool.length));
     const pick = weighted[Math.floor(Math.random() * weighted.length)];
-    if (pick) focusMesh(pick.mesh, true);
+    if (pick) focusMesh(pick.mesh, true, { surprise: true });
   }
 
   function stopTour(message = 'Presentation Tour'){
