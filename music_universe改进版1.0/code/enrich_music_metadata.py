@@ -26,6 +26,8 @@ WEB_DATA_PATH = PROJECT_ROOT / "web" / "music_universe" / "music_universe_data_e
 CACHE_JSON_PATH = PROJECT_ROOT / "output" / "tables" / "itunes_metadata_cache.json"
 CACHE_CSV_PATH = PROJECT_ROOT / "output" / "tables" / "itunes_metadata_enriched.csv"
 JS_PREFIX = "window.SITE_DATA = "
+# 去除易干扰 iTunes/Deezer 查询的控制字符与零宽字符（见《问题排查》2.3）。
+_CTRL_CHARS_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\u200b-\u200f\u202a-\u202e\ufeff]")
 
 
 def clean_text(value: Any) -> str:
