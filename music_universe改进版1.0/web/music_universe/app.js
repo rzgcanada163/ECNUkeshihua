@@ -29,6 +29,10 @@ async function loadSiteData() {
       errorBanner.style.display = 'none';
       errorBanner.textContent = '';
     }
+    const protocolTipEl = document.getElementById('protocolTip');
+    if (protocolTipEl && location.protocol !== 'file:') {
+      protocolTipEl.hidden = true;
+    }
 
   const spotifyItems = SITE_DATA.spotifyItems || [];
   const billboardItems = SITE_DATA.billboardItems || [];
