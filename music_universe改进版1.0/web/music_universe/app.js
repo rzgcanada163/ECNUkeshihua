@@ -14,6 +14,8 @@ async function loadSiteData() {
 (async function(){
   const errorBanner = document.getElementById('errorBanner');
   function showError(msg){
+    const tip = document.getElementById('protocolTip');
+    if (tip) tip.hidden = true;
     errorBanner.style.display = 'block';
     errorBanner.textContent = msg;
   }
