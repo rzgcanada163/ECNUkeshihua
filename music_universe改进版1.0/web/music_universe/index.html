@@ -170,8 +170,14 @@
     async function loadWithFallback(localSrc, cdnSrc) {
       try {
         await loadScript(localSrc);
-      } catch (_) {
-        await loadScript(cdnSrc);
+      } catch (localErr) {
+        try {
+          await loadScript(cdnSrc);
+        } catch (cdnErr) {
+          throw new Error(
+            `无法加载 ${localSrc}（本地）且 CDN 回退失败：${cdnSrc}。请确认 vendor 文件存在或可访问外网。`
+          );
+        }
       }
     }
 
