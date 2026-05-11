@@ -816,30 +816,95 @@ async function loadSiteData() {
     }, duration * 1000);
   }
 
-  async function playTrackPreview(item){
+  function hasHttpPreview(item){
+    const u = cleanText(item.preview_url || item.previewUrl, '');
+    return u.startsWith('http://') || u.startsWith('https://');
+  }
+
+  async function playTrackPreview(item, opts = {}){
     if (!item) return;
-    const previewUrl = cleanText(item.preview_url || item.previewUrl, '');
-    if (!previewUrl) {
+    const surprise = opts.surprise === true;
+    const fastFailMs = surprise ? 2600 : null;
+
+    if (!hasHttpPreview(item)) {
       await playSonicPreview(item);
       return;
     }
 
+    const previewUrl = cleanText(item.preview_url || item.previewUrl, '');
+
     stopPreview();
+    let finished = false;
+    let failTimer = null;
+
+    const clearFailTimer = () => {
+      if (failTimer) {
+        clearTimeout(failTimer);
+        failTimer = null;
+      }
+    };
+
+    const finalizeEnded = () => {
+      if (finished) return;
+      finished = true;
+      clearFailTimer();
+      stopPreview('真实试听已结束。点击 Play Preview 可再次播放。');
+    };
+
+    const fallbackSignature = async () => {
+      if (finished) return;
+      finished = true;
+      clearFailTimer();
+      try {
+        if (previewAudio) {
+          previewAudio.pause();
+          previewAudio.removeAttribute('src');
+          previewAudio.load();
+        }
+      } catch (_) {}
+      previewAudio = null;
+      await playSonicPreview(item);
+    };
+
     previewAudio = new Audio(previewUrl);
-    // 不设 crossOrigin：公开试听 URL 多数仅用于播放；设 anonymous 易触发 CDN CORS 导致无法播放（见《问题排查》3.4）。
     previewAudio.volume = 0.82;
     playPreviewBtn.textContent = 'Replay Preview';
-    audioStatus.textContent = `正在播放 ${cleanText(item.title, 'this track')} 的真实 30 秒试听片段。若网络或地区不可用，会自动回退到声纹预览。`;
-    previewAudio.addEventListener('ended', () => {
-      stopPreview('真实试听已结束。点击 Play Preview 可再次播放。');
+    audioStatus.textContent = surprise
+      ? `Surprise：正在加载试听… 若约 ${Math.round((fastFailMs || 0) / 100) / 10}s 仍无声音将自动播放声纹。`
+      : `正在播放 ${cleanText(item.title, 'this track')} 的真实 30 秒试听片段。若网络或地区不可用，会自动回退到声纹预览。`;
+
+    previewAudio.addEventListener('ended', finalizeEnded, { once: true });
+    previewAudio.addEventListener('error', () => { void fallbackSignature(); }, { once: true });
+    previewAudio.addEventListener('playing', () => {
+      clearFailTimer();
+      if (surprise) {
+        audioStatus.textContent = `正在播放 ${cleanText(item.title, 'this track')} 的试听片段。`;
+      }
     }, { once: true });
-    previewAudio.addEventListener('error', () => {
-      playSonicPreview(item);
-    }, { once: true });
+
+    if (fastFailMs != null) {
+      failTimer = setTimeout(() => {
+        if (finished) return;
+        try {
+          const a = previewAudio;
+          if (!a) return;
+          if (a.error) {
+            void fallbackSignature();
+            return;
+          }
+          if (!a.ended && a.currentTime < 0.025) {
+            void fallbackSignature();
+          }
+        } catch (_) {
+          void fallbackSignature();
+        }
+      }, fastFailMs);
+    }
+
     try {
       await previewAudio.play();
     } catch (_) {
-      await playSonicPreview(item);
+      await fallbackSignature();
     }
   }
 
