@@ -2011,6 +2011,15 @@ def main() -> None:
     logging.info("Start music hit analysis pipeline")
     logging.info("=" * 70)
 
+    # 尽早检测输出目录可写，避免跑完数据后才因权限失败（见《问题排查》1.3）。
+    try:
+        probe = dirs["root"] / ".music_analysis_write_probe"
+        probe.write_text("", encoding="utf-8")
+        probe.unlink(missing_ok=True)
+    except OSError as exc:
+        logging.error("输出目录不可写，请检查 MUSIC_OUTPUT_ROOT 或磁盘权限: %s | %s", dirs["root"], exc)
+        raise
+
     # -----------------------------
     # 步骤 1. 读取数据
     # -----------------------------
