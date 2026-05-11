@@ -870,7 +870,7 @@ async function loadSiteData() {
     previewAudio.volume = 0.82;
     playPreviewBtn.textContent = 'Replay Preview';
     audioStatus.textContent = surprise
-      ? `Surprise：正在加载试听… 若约 ${Math.round((fastFailMs || 0) / 100) / 10}s 仍无声音将自动播放声纹。`
+      ? `Surprise：正在加载试听… 若约 ${(fastFailMs / 1000).toFixed(1)}s 仍无声音将自动播放声纹。`
       : `正在播放 ${cleanText(item.title, 'this track')} 的真实 30 秒试听片段。若网络或地区不可用，会自动回退到声纹预览。`;
 
     previewAudio.addEventListener('ended', finalizeEnded, { once: true });
