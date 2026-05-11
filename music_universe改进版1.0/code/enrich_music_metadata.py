@@ -118,6 +118,7 @@ def save_cache(cache: dict[str, dict[str, Any]]) -> None:
 
 
 def request_itunes(query: str, country: str = "US") -> dict[str, Any]:
+    query = _CTRL_CHARS_RE.sub("", query).strip()[:240]
     params = urlencode(
         {
             "media": "music",
