@@ -533,7 +533,7 @@ async function loadSiteData() {
     moodGrid.appendChild(row);
   }
 
-  function focusMesh(mesh, shouldPlay = false){
+  function focusMesh(mesh, shouldPlay = false, previewOpts){
     if (!mesh) return;
     if (selectedMesh) selectedMesh.scale.setScalar(selectedMesh.userData.baseScale);
     selectedMesh = mesh;
@@ -542,7 +542,7 @@ async function loadSiteData() {
     const worldPos = new THREE.Vector3();
     selectedMesh.getWorldPosition(worldPos);
     controls.target.lerp(worldPos, 0.35);
-    if (shouldPlay) playTrackPreview(selectedMesh.userData.item);
+    if (shouldPlay) void playTrackPreview(selectedMesh.userData.item, previewOpts || {});
   }
 
   function renderTopTracks(items){
