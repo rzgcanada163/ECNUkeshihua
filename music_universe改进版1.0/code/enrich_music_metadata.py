@@ -36,7 +36,8 @@ def clean_text(value: Any) -> str:
     text = str(value).strip()
     if not text or text.lower() in {"nan", "none", "null"}:
         return ""
-    return re.sub(r"\s+", " ", text.replace(";", " ")).strip()
+    text = re.sub(r"\s+", " ", text.replace(";", " ")).strip()
+    return _CTRL_CHARS_RE.sub("", text)
 
 
 def normalized_key(item: dict[str, Any]) -> str:
