@@ -55,9 +55,13 @@ def make_query(item: dict[str, Any]) -> str:
 
 
 def load_site_data(path: Path) -> dict[str, Any]:
-    text = path.read_text(encoding="utf-8")
+    # utf-8-sig：兼容带 BOM 的编辑器保存；lstrip 容忍文件开头空白。
+    text = path.read_text(encoding="utf-8-sig").lstrip()
     if not text.startswith(JS_PREFIX):
-        raise ValueError(f"{path} does not start with {JS_PREFIX!r}")
+        raise ValueError(
+            f"{path} does not start with {JS_PREFIX!r} (after BOM/whitespace). "
+            "请以 window.SITE_DATA = 开头保存 JSON 内容。"
+        )
     payload = text[len(JS_PREFIX) :].strip()
     if payload.endswith(";"):
         payload = payload[:-1]
