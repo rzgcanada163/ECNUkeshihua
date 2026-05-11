@@ -181,8 +181,8 @@ def setup_logging(log_path: Path) -> None:
 # 4. 数据读取与清洗
 # =========================================================
 def safe_read_csv(path: str) -> pd.DataFrame:
-    """读取 CSV。优先 utf-8-sig，不行再尝试 gbk / utf-8。"""
-    encodings = ["utf-8-sig", "utf-8", "gbk", "latin1"]
+    """读取 CSV：多编码回退（见《问题排查》1.2）。"""
+    encodings = ["utf-8-sig", "utf-8", "gbk", "gb18030", "cp932", "big5", "latin1"]
     last_err = None
     for enc in encodings:
         try:
