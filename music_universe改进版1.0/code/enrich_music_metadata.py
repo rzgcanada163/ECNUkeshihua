@@ -275,8 +275,18 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Enrich Music Universe metadata via iTunes Search.")
     parser.add_argument("--limit", type=int, default=0, help="Maximum number of uncached unique songs to query. 0 = all.")
     parser.add_argument("--country", default="US", help="iTunes storefront country code.")
-    parser.add_argument("--sleep", type=float, default=0.08, help="Delay between network requests.")
-    parser.add_argument("--workers", type=int, default=8, help="Concurrent lookup workers.")
+    parser.add_argument(
+        "--sleep",
+        type=float,
+        default=0.15,
+        help="Delay between network requests (larger = gentler on public APIs).",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=4,
+        help="Concurrent lookup workers (lower = fewer rate-limit errors).",
+    )
     parser.add_argument("--retry-failed", action="store_true", help="Retry cached entries without preview URLs.")
     args = parser.parse_args()
 
