@@ -1025,7 +1025,7 @@ def plot_billboard_decade_topic_sankey(topics_long_df: pd.DataFrame, out_path: P
     fig.update_layout(
         template="plotly_white",
         title="Billboard 冠军歌曲：年代到歌词主题的流向（桑基图）",
-        font=dict(size=12),
+        font=PLOTLY_CHART_FONT,
         margin=dict(l=20, r=20, t=70, b=20),
     )
     fig.write_html(str(out_path), include_plotlyjs="cdn")
