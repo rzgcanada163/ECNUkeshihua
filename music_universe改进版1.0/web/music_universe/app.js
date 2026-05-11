@@ -702,7 +702,7 @@ async function loadSiteData() {
       const largeArt = found.replace('100x100bb', '600x600bb');
       setArtworkCache(cacheKey, largeArt);
       if (currentItem && currentItem.id === item.id && requestId === artworkRequestId) {
-        artBox.innerHTML = `<img alt="album art" src="${largeArt}" />`;
+        artBox.innerHTML = `<img alt="album art" referrerpolicy="no-referrer" loading="lazy" src="${largeArt}" />`;
       }
     } catch (_) {
       // Offline or blocked network: the generated cover remains visible.
