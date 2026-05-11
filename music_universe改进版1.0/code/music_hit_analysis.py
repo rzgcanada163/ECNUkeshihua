@@ -2023,6 +2023,14 @@ def main() -> None:
     topics = clean_topics(topics_raw)
     topics_long = extract_billboard_topics_long(billboard, topics)
 
+    # 冒烟测试或低配机器：设置 MUSIC_SPOTIFY_MAX_ROWS 为正整数可随机下采样 Spotify 行数（见《问题排查》1.3）。
+    _max_sp = os.environ.get("MUSIC_SPOTIFY_MAX_ROWS", "").strip()
+    if _max_sp.isdigit():
+        cap = int(_max_sp)
+        if cap > 0 and len(spotify) > cap:
+            spotify = spotify.sample(n=cap, random_state=42).copy()
+            logging.info("MUSIC_SPOTIFY_MAX_ROWS=%s：Spotify 已下采样至 %s 行", _max_sp, len(spotify))
+
     # -----------------------------
     # 步骤 3. 保存清洗数据
     # -----------------------------
