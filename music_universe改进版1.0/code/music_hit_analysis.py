@@ -1909,6 +1909,7 @@ def plot_interactive_3d_topic_cluster_bubble(
 
     fig.update_layout(
         template="plotly_white",
+        font=PLOTLY_CHART_FONT,
         title="Billboard 冠军歌曲：3D 主题簇气泡图",
         margin=dict(l=0, r=0, t=62, b=0),
         scene=dict(
