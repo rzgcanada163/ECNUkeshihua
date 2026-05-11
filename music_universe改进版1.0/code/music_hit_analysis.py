@@ -1493,7 +1493,10 @@ def _billboard_metric_to_spotify_scale(series: pd.Series, tempo_like: bool) -> p
     v = pd.to_numeric(series, errors="coerce")
     if tempo_like:
         return v
-    if v.notna().any() and float(np.nanmax(v.to_numpy(dtype=float, na_value=np.nan))) <= 1.2:
+    finite = v.dropna()
+    if finite.empty:
+        return v
+    if float(finite.max()) <= 1.2:
         return v.clip(lower=0.0, upper=1.0)
     return (v / 100.0).clip(lower=0.0, upper=1.0)
 
