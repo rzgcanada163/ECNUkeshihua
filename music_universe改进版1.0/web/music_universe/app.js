@@ -687,7 +687,7 @@ async function loadSiteData() {
     const cached = getArtworkCache(cacheKey);
     if (cached) {
       if (currentItem && currentItem.id === item.id && requestId === artworkRequestId) {
-        artBox.innerHTML = `<img alt="album art" src="${cached}" />`;
+        artBox.innerHTML = `<img alt="album art" referrerpolicy="no-referrer" loading="lazy" src="${cached}" />`;
       }
       return;
     }
