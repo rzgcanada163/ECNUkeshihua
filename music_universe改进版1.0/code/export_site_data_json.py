@@ -34,8 +34,9 @@ def main() -> int:
     except json.JSONDecodeError as exc:
         print(f"JSON 解析失败: {exc}", file=sys.stderr)
         return 1
-    JSON_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"已写入: {JSON_PATH}（{len(JSON_PATH.read_text(encoding='utf-8'))} 字符）")
+    out = json.dumps(data, ensure_ascii=False, indent=2)
+    JSON_PATH.write_text(out, encoding="utf-8")
+    print(f"已写入: {JSON_PATH}（约 {len(out)} 字符）")
     return 0
 
 
