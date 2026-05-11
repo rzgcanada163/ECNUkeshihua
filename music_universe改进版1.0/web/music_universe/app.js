@@ -4,7 +4,9 @@ async function loadSiteData() {
   }
   const response = await fetch("./music_universe_data_embedded.json", { cache: "no-store" });
   if (!response.ok) {
-    throw new Error(`Failed to load data: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `无法加载数据（HTTP ${response.status}）。请确认已先加载 music_universe_data_embedded.js，或与 index.html 同目录下提供 music_universe_data_embedded.json。`
+    );
   }
   return response.json();
 }
