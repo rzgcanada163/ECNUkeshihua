@@ -2015,7 +2015,8 @@ def main() -> None:
     try:
         probe = dirs["root"] / ".music_analysis_write_probe"
         probe.write_text("", encoding="utf-8")
-        probe.unlink(missing_ok=True)
+        if probe.exists():
+            probe.unlink()
     except OSError as exc:
         logging.error("输出目录不可写，请检查 MUSIC_OUTPUT_ROOT 或磁盘权限: %s | %s", dirs["root"], exc)
         raise
