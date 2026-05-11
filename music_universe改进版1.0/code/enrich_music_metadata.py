@@ -135,6 +135,7 @@ def request_itunes(query: str, country: str = "US") -> dict[str, Any]:
 
 
 def request_deezer(query: str) -> dict[str, Any]:
+    query = _CTRL_CHARS_RE.sub("", query).strip()[:240]
     params = urlencode({"q": query, "limit": 5})
     url = f"https://api.deezer.com/search?{params}"
     request = Request(url, headers={"User-Agent": "MusicUniverseCourseProject/1.0"})
