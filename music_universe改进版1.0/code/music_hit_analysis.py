@@ -1488,8 +1488,18 @@ def plot_bootstrap_ci_hit_vs_low(
 # =========================================================
 # 9. 对照分析图
 # =========================================================
+def _billboard_metric_to_spotify_scale(series: pd.Series, tempo_like: bool) -> pd.Series:
+    """将 Billboard 侧比例类指标对齐到 Spotify 的 0–1；tempo/bpm 保持 BPM 原样。"""
+    v = pd.to_numeric(series, errors="coerce")
+    if tempo_like:
+        return v
+    if v.notna().any() and float(np.nanmax(v.to_numpy(dtype=float, na_value=np.nan))) <= 1.2:
+        return v.clip(lower=0.0, upper=1.0)
+    return (v / 100.0).clip(lower=0.0, upper=1.0)
+
+
 def build_comparison_table(spotify_df: pd.DataFrame, billboard_df: pd.DataFrame) -> pd.DataFrame:
-    """构造 Spotify 爆款与 Billboard 冠军歌曲的特征对照表。"""
+    """构造 Spotify 爆款与 Billboard 冠军歌曲的特征对照表（Billboard 比例列已换算至 0–1 与 Spotify 可比）。"""
     sp_feats = [c for c in ["danceability", "energy", "valence", "acousticness", "tempo"] if c in spotify_df.columns]
     bb_map = {
         "danceability": "danceability",
@@ -1504,10 +1514,15 @@ def build_comparison_table(spotify_df: pd.DataFrame, billboard_df: pd.DataFrame)
     for feat in sp_feats:
         bb_feat = bb_map.get(feat)
         if bb_feat in billboard_df.columns:
+            bb_mean = float(
+                _billboard_metric_to_spotify_scale(
+                    billboard_df[bb_feat], tempo_like=(feat == "tempo")
+                ).mean()
+            )
             rows.append({
                 "feature": feat,
-                "spotify_hit_mean": hit_spotify[feat].mean(),
-                "billboard_no1_mean": billboard_df[bb_feat].mean()
+                "spotify_hit_mean": float(hit_spotify[feat].mean()),
+                "billboard_no1_mean": bb_mean,
             })
     comp = pd.DataFrame(rows)
     return comp
