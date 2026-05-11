@@ -190,7 +190,12 @@
     const banner = document.getElementById("errorBanner");
     if (banner) {
       banner.style.display = "block";
-      banner.textContent = `脚本加载失败：${err.message}`;
+      let msg = `脚本加载失败：${err.message}`;
+      if (String(err.message).includes("music_universe_data_embedded")) {
+        msg +=
+          " 请确认 music_universe_data_embedded.js 与 index.html 同目录且 JSON 合法；或运行 python code/export_site_data_json.py 生成同名 .json 后调整加载顺序。";
+      }
+      banner.textContent = msg;
     }
   });
 </script>
