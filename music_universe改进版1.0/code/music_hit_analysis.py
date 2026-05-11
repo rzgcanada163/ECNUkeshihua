@@ -1571,7 +1571,12 @@ def plot_feature_gap_heatmap_by_decade(spotify_df: pd.DataFrame, billboard_df: p
         row = {"decade": int(decade)}
         for sp_feat, bb_feat in feat_map.items():
             if sp_feat in sp_means and bb_feat in grp.columns:
-                row[sp_feat] = grp[bb_feat].mean() - sp_means[sp_feat]
+                bb_mean = float(
+                    _billboard_metric_to_spotify_scale(
+                        grp[bb_feat], tempo_like=(sp_feat == "tempo")
+                    ).mean()
+                )
+                row[sp_feat] = bb_mean - sp_means[sp_feat]
         rows.append(row)
 
     gap = pd.DataFrame(rows).set_index("decade").sort_index()
