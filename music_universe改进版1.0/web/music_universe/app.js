@@ -799,7 +799,7 @@ async function loadSiteData() {
 
     stopPreview();
     previewAudio = new Audio(previewUrl);
-    previewAudio.crossOrigin = 'anonymous';
+    // 不设 crossOrigin：公开试听 URL 多数仅用于播放；设 anonymous 易触发 CDN CORS 导致无法播放（见《问题排查》3.4）。
     previewAudio.volume = 0.82;
     playPreviewBtn.textContent = 'Replay Preview';
     audioStatus.textContent = `正在播放 ${cleanText(item.title, 'this track')} 的真实 30 秒试听片段。若网络或地区不可用，会自动回退到声纹预览。`;
