@@ -1541,7 +1541,7 @@ def plot_comparison_lollipop(comp_df: pd.DataFrame, out_path: Path) -> None:
     plt.scatter(temp["spotify_hit_mean"], y, color=PALETTE_MAIN[0], s=120, label="Spotify Hits")
     plt.scatter(temp["billboard_no1_mean"], y, color=PALETTE_MAIN[2], s=120, label="Billboard #1")
     plt.yticks(y, temp["feature"])
-    plt.xlabel("特征平均值")
+    plt.xlabel("特征平均值（比例类已统一为 0–1；tempo 为 BPM）")
     plt.title("Spotify 高热歌曲与 Billboard 冠军歌曲对比")
     plt.legend()
     save_figure(out_path)
