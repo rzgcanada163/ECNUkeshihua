@@ -957,7 +957,7 @@ async function loadSiteData() {
     const query = makeSearchQuery(item);
     spotifyLink.href = `https://open.spotify.com/search/${encodeURIComponent(query)}`;
     youtubeLink.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-    playPreviewBtn.textContent = cleanText(item.preview_url || item.previewUrl, '') ? 'Play Preview' : 'Play Signature';
+    playPreviewBtn.textContent = hasHttpPreview(item) ? 'Play Preview' : 'Play Signature';
     playPreviewBtn.disabled = false;
     stopPreviewBtn.disabled = false;
     hydrateArtwork(item);
