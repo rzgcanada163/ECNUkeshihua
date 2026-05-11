@@ -1608,12 +1608,25 @@ def plot_decade_similarity_to_spotify_hits(spotify_df: pd.DataFrame, billboard_d
     sp_vec = np.array([hit_spotify[k].mean() for k in usable], dtype=float)
     rows = []
     for decade, grp in billboard_df.groupby("decade"):
-        bb_vec = np.array([grp[feat_map[k]].mean() for k in usable], dtype=float)
+        bb_vec = np.array(
+            [
+                float(
+                    _billboard_metric_to_spotify_scale(
+                        grp[feat_map[k]], tempo_like=(k == "tempo")
+                    ).mean()
+                )
+                for k in usable
+            ],
+            dtype=float,
+        )
         rows.append({"decade": int(decade), "cosine_similarity": _cosine_similarity(sp_vec, bb_vec)})
 
     sim_df = pd.DataFrame(rows).sort_values("decade")
     plt.figure(figsize=(12, 6))
-    sns.barplot(data=sim_df, x="decade", y="cosine_similarity", color=PALETTE_MAIN[0])
+    # 使用数值型 x 轴，避免 seaborn 将年代刻度当成分类字符串时的 Matplotlib 提示（见《问题排查》4.1）。
+    decades = sim_df["decade"].astype(int).to_numpy()
+    plt.bar(decades, sim_df["cosine_similarity"].to_numpy(), width=8, color=PALETTE_MAIN[0], align="center")
+    plt.xticks(decades)
     plt.ylim(-1, 1)
     plt.title("Billboard 各年代与 Spotify 高热画像相似度")
     plt.xlabel("年代")
