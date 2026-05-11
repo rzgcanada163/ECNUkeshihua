@@ -1776,6 +1776,7 @@ def plot_interactive_3d_decade_trajectory(billboard_df: pd.DataFrame, out_path: 
     evr = pca.explained_variance_ratio_
     fig.update_layout(
         template="plotly_white",
+        font=PLOTLY_CHART_FONT,
         title="Billboard 冠军歌曲：3D 年代风格轨迹图",
         margin=dict(l=0, r=0, t=62, b=0),
         legend=dict(x=0.01, y=0.99),
