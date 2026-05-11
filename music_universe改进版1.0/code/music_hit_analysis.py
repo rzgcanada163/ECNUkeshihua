@@ -1983,6 +1983,10 @@ def write_summary_report(
                 f"- {row['feature']}: Spotify Hits={row['spotify_hit_mean']:.3f}, "
                 f"Billboard #1={row['billboard_no1_mean']:.3f}\n"
             )
+        lines.append(
+            "\n> 对照表中 Billboard 的 danceability / energy / happiness（对应 valence）/ acousticness "
+            "已与 Spotify 一致换算为 **0–1**；tempo 列为 **BPM**。\n"
+        )
         lines.append("\nNote: Spotify `valence` and Billboard `happiness` are conceptually similar but not perfectly identical.\n")
 
     lines.append("\n## 6. Interpretation Boundary\n")
