@@ -332,6 +332,22 @@ async function loadSiteData() {
   let previewTimer = null;
   let artworkRequestId = 0;
 
+  // 首次用户手势时预解锁 AudioContext，减轻部分浏览器对 Web Audio 的自动播放限制（见《问题排查》3.4）。
+  (function installAudioGestureUnlock(){
+    const unlock = async () => {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      try {
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
+      } catch (_) {}
+      document.removeEventListener('pointerdown', unlock, true);
+      document.removeEventListener('touchstart', unlock, true);
+    };
+    document.addEventListener('pointerdown', unlock, true);
+    document.addEventListener('touchstart', unlock, true);
+  })();
+
   const songTitle = document.getElementById('songTitle');
   const songSub = document.getElementById('songSub');
   const pillGenre = document.getElementById('pillGenre');
